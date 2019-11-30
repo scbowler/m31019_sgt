@@ -16,6 +16,22 @@ export function addGradeRecord(gradeData) {
     }
 }
 
+export function deleteGradeRecord(id, index) {
+    return async function(dispatch, getState) {
+        await axios.delete(`/api/grades/${id}`);
+
+        const { grades } = getState();
+        const list = [...grades.list];
+
+        list.splice(index, 1);
+
+        dispatch({
+            type: types.DELETE_GRADE_RECORD,
+            list: list
+        });
+    }
+}
+
 export function getGradeData(){
     return async function (dispatch) {
         const resp = await axios.get('/api/grades');
